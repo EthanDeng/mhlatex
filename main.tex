@@ -1,0 +1,55 @@
+% !TEX options=--shell-escape
+\documentclass[11pt]{article}
+
+\usepackage{fontspec}
+\setmainfont{Amiri}
+\setsansfont{Roboto}
+\setmonofont{Ubuntu Mono}
+
+\usepackage{xeCJK}
+\setCJKmainfont[BoldFont=方正黑体简体]{方正书宋简体}
+\setCJKsansfont[BoldFont=方正黑体简体]{方正楷体简体}
+\setCJKmonofont{方正黑体简体}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+
+\usepackage{minted}
+\setminted{fontsize=\footnotesize}
+\usepackage{geometry}
+\geometry{
+  a4paper,
+  margin=25mm
+}
+\usepackage{hyperref}
+
+\linespread{1.35}
+\title{\bfseries 基本无害的经济学 \LaTeX{} 技巧}
+\author{\href{https://ddswhu.me/}{邓 东 升} \\  复旦经济学院}
+\date{2019 年 10 月 18 日}
+
+\begin{document}
+
+\maketitle
+
+此文档为经济学专业的 \LaTeX{} 技巧总结，包括 \LaTeX{} 环境搭建、\LaTeX{} 基础知识、文献以及幻灯片制作，仅作为经济学专业的师生作为入门 \LaTeX{} 使用。 
+
+Apparently we had reached a great height in the atmosphere, for the sky was a dead black, and the stars had ceased to twinkle. By the same illusion which lifts the horizon of the sea to the level of the spectator on a hillside, the sable cloud beneath was dished out, and the car seemed to float in the middle of an immense dark sphere, whose upper half was strewn with silver. Looking down into the dark gulf below, I could see a ruddy light streaming through a rift in the clouds.
+
+\section{环境搭建}
+
+\begin{minted}{Python}
+import pandas as pd
+import matplotlib.pyplot as plt
+\end{minted}
+
+\subsection{安装 \TeX{} Live 2019}
+
+\subsection{配置编译环境}
+
+\section{基础知识}
+
+\section{文献}
+
+\section{幻灯片}
+
+\end{document}
