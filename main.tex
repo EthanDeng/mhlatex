@@ -15,17 +15,28 @@
 % \usepackage{pifont}
 % \usepackage{forloop}
 
-% https://tex.stackexchange.com/questions/11390/drawing-stars-similar-with-tikz
+% origin: https://tex.stackexchange.com/questions/11390/drawing-stars-similar-with-tikz
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric,calc}
+\tikzset{
+  stars/.style={
+    star, 
+    star points=5, 
+    star point ratio=2.25, 
+    draw,
+    inner sep=0.14em,
+    anchor=outer point 3,
+    draw=orange,
+    scale=0.8
+  }
+}
 \newcommand\stars[1]{
 \pgfmathsetmacro\pgfxa{#1+1}
-\tikzstyle{scorestars}=[star, star points=5, star point ratio=2.25, draw,inner sep=0.14em,anchor=outer point 3,draw=orange,scale=0.8]
 \begin{tikzpicture}[baseline]
   \foreach \i in {1,...,5} {
     \pgfmathparse{(\i<=#1?"orange":"white")}
     \edef\starcolor{\pgfmathresult}
-    \draw (\i*0.8em,0) node[name=star\i,scorestars,fill=\starcolor]  {};
+    \draw (\i*0.8em,0) node[name=star\i,stars,fill=\starcolor]  {};
    }
    \pgfmathparse{(#1>int(#1)?int(#1+1):0}
    \let\partstar=\pgfmathresult
@@ -33,10 +44,9 @@
      \pgfmathsetmacro\starpart{#1-(int(#1))}
      \path [clip] ($(star\partstar.outer point 3)!(star\partstar.outer point 2)!(star\partstar.outer point 4)$) rectangle 
     ($(star\partstar.outer point 2 |- star\partstar.outer point 1)!\starpart!(star\partstar.outer point 1 -| star\partstar.outer point 5)$);
-     \fill (\partstar*0.8em,0) node[scorestars,fill=orange]  {};
+     \fill (\partstar*0.8em,0) node[stars,fill=orange]  {};
    \fi
-
-,\end{tikzpicture}
+\end{tikzpicture}
 }
 
 \newcommand\email[1]{\href{mailto:#1}{\nolinkurl{#1}}}
@@ -52,8 +62,8 @@
 目前 \LaTeX{} 的主要发行版本如下：
 \begin{itemize}
 \item \hologo{MiKTeX}：Windows 上的发行版，国内的 C\TeX{}\footnote{已过时，请尽量不要使用。} 使用的就是 \hologo{MiKTeX}；
-\item \TeX{} Live：编辑器 \TeX{}works，跨系统，最新版为 TeX Live 2019，每年更新一个大版本；
-\item Mac\TeX{}：Mac 上的 \TeX Live，为了适应 Mac 系统做了一些细微的调整；
+\item \TeX{} Live：编辑器 \TeX{}works，跨系统，每年更新一个大版本，最新版为 TeX Live 2019；
+\item Mac\TeX{}：Mac 上的 \TeX{} Live，为了适应 Mac 系统做了一些细微的调整；
 \end{itemize} 
 
 推荐使用 \TeX{} Live 2019，可以使用默认的 \TeX{}works 或者配合其他编辑器（比如 Sublime Text、Visual Studio Code）的插件进行编写，后面我们会细说这部分。
@@ -85,10 +95,14 @@
     \begin{tabular}{cccccc}
     \toprule
              &  WinEdt      &  \TeX{}studio  & \TeX{}works   &  Sublime Text &  VS Code     \\
+             \cline{5-6}
+    插件依赖  &        &   &  &  \href{https://latextools.readthedocs.io/en/latest/}{\LaTeX{}Tools} &  \href{https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop}{\LaTeX{} Workshop}   \\
     \midrule
     主流系统  &  Win          &  全平台        & Linux/Win     &  全平台        &  全平台       \\
     软件类型  &  商业软件      &  开源软件       & 开源软件       &  商业软件       &  商业软件     \\
-    软件价格  &  219 元       &  0             &  0            &  80 刀        &  0           \\
+    软件价格  &  \href{https://item.taobao.com/item.htm?id=551105790596}{219 元}       &  0             &  0            &  \href{https://www.sublimehq.com/store/text}{80 美元}        &  0           \\
+    授权方式  &  终身/教育     &               &               &  终身/个人      &               \\
+    % 附加信息  &  教育版本      &               &               &  三年更新       &               \\
     代码高亮  &  \stars{2.7}  &  \stars{3.2}  &  \stars{1.5}  &  \stars{4.3}  &  \stars{4.5}  \\
     颜色主题  &  \stars{2.3}  &  \stars{2.2}  &  \stars{1.0}  &  \stars{4.0}  &  \stars{4.0}  \\
     自动补全  &  \stars{2.7}  &  \stars{3.4}  &  \stars{2.0}  &  \stars{3.5}  &  \stars{4.0}  \\
@@ -105,15 +119,16 @@
 \section{基础知识}
 
 \subsection{最简示例}
-\begin{minted}{tex}
+\begin{code}
 \documentclass{article}
-
+% 导言区
 \begin{document}
-
 Hello World.
-
 \end{document}
-\end{minted}
+\end{code}
+\begin{preview}
+Hello World.
+\end{preview}
 
 \subsection{中文支持}
 目前流行的中文支持有两个方式：
@@ -244,15 +259,45 @@ y_{i} = \alpha + \beta x_{i} + \varepsilon_{i}
 \end{preview}
 
 \subsection{长表格}
+如果表格非常长，可以使用 \mintinline{tex}{longtable} 代替 \mintinline{tex}{table}。
+
+\begin{code}
+\begin{table}
+  \begin{tabular}
+    % 表格内容
+  \end{tabular}
+\end{table}
+\end{code}
+\hspace{0.02\textwidth}
+\textcolor{gray}{\vrule}
+\hspace{0.02\textwidth}
+\begin{code}
+\begin{longtable}
+  \begin{tabular}
+    % 表格内容
+  \end{tabular}
+\end{longtable}
+\end{code}
 
 \subsection{辅助工具}
+手动输入表格是一个非常枯燥的过程，而且容易出错，因此我们推荐借助其他工具辅助制作表格，其中个人体验最好的一个工具是 \href{https://ctan.org/pkg/excel2latex}{Excel2LaTeX}。你可以通过 CTAN 的\href{http://mirrors.ctan.org/support/excel2latex.zip}{下载地址}或者\href{}{此处}下载此插件，将插件下载解压缩之后，双击打开即可使用，不过建议把 \mintinline{tex}{Excel2LaTeX.xla} 置于 Excel 的启动文件夹内，这样以后就不用每次查找这个 Excel 宏才能使用。我本人的 Office 是 2019，对应的 Excel 的启动目录为 \mintinline[breaklines]{tex}{C:\Program Files\Microsoft Office\root\Office16\XLSTART}，如此，在你的 Excel 上方会出现一个插件选项卡，有两个表格转换的选项，见图~\ref{fig:excel2latex}。选中所需要转换的表格，然后选择 \mintinline{shell}{Convert Table to LaTeX} 即可。
+
+\begin{figure}
+\centering
+\includegraphics[width=0.6\textwidth]{excel2latex.png}
+\caption{Excel2\LaTeX{} 插件\label{fig:excel2latex}}
+\end{figure}
+
+
+另外在线转换的工具 \href{https://tableconvert.com/?output=latex}{Table Convert} 也可以尝试一下。
+
 
 \subsection{回归表格}
 
 \section{文献}
 
 \section{幻灯片}
-Beamer 是 \LaTeX{} 用于制作幻灯片的一个文类，由于它的格式简洁、易于使用、方便展示数学公式和逻辑演绎，在学术界特别是国外非常受欢迎。hao下面分别是是英文 Beamer 和中文 Beamer 的一个简单示例：
+Beamer 是 \LaTeX{} 用于制作幻灯片的一个文类，由于它的格式简洁、易于使用、方便展示数学公式和逻辑演绎，在学术界特别是国外非常受欢迎。下面分别是是英文 Beamer 和中文 Beamer 的一个简单示例：
 
 \begin{code}
 \documentclass{beamer}
