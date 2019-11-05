@@ -6,13 +6,14 @@
 \author{\href{https://ddswhu.me/}{\bfseries 邓东升} \\  Elegant\LaTeX{} 项目组}
 \date{2019 年 11 月 05 日}
 
+\newcommand{\texmint}[1]{\mintinline{tex}{#1}}
 
 \begin{document}
 
 
 \maketitle
 
-此文档为经济学专业的 \LaTeX{} 技巧总结，包括环境搭建、基础知识、参考文献以及幻灯片制作等内容，仅作为经济学专业的师生作为入门 \LaTeX{} 使用。使用 \mintinline{tex}{dlove} \heart{} 模板和 \hologo{XeLaTeX} 编译完成。
+此文档为经济学专业的 \LaTeX{} 技巧总结，包括环境搭建、基础知识、参考文献以及幻灯片制作等内容，仅作为经济学专业的师生作为入门 \LaTeX{} 使用。使用 \texmint{dlove} \heart{} 模板和 \hologo{XeLaTeX} 编译完成。
 
 \section{环境搭建}
 目前 \LaTeX{} 的主要发行版本如下：
@@ -74,6 +75,69 @@
 
 \section{基础知识}
 
+\subsection{命令与环境}
+\textbf{命令}和\textbf{环境}是 \LaTeX{} 最重要的组成部分，因此我们先了解下这两个概念。
+
+命令由反斜杠 \mintinline{tex}{\} 引导，一般的形式为 \mintinline{tex}{\cmd[可选参数]{必选参数}}，命令名全部由\textcolor{FireBrick}{英文字母}构成，并且大小写敏感，因此 \mintinline{tex}{\LaTeX{}} 是对的，而 \mintinline{tex}{\latex{}} 是错的。必选参数可能有 0 个或者多个，无参数的命令为 \mintinline{tex}{\cmd}，多个参数的形式为 \mintinline{tex}{\cmd[可选参数]{参数 1}{参数 2}...{参数 N}}。下面是一个示例：
+
+\begin{code}
+  无参数命令：\LaTeX{} \vline 
+  单参数命令：\textbf{加粗} \textit{Italic Style} 
+  多参数命令：\rule{2cm}{0.4pt}
+\end{code}
+\begin{preview}
+  无参数命令：\LaTeX{} \quad  \vline\\
+  单参数命令：\textbf{加粗} \textit{Italic Style} \\
+  多参数命令：\rule{2cm}{0.4pt}
+\end{preview}
+
+这里对部分命令解释一下，\mintinline{tex}{\vline} 不带参数时，会输出一条高度为行高的竖线（vertical line），而 \mintinline{tex}{\textbf} 和 \mintinline{tex}{\textit} 分别为字体\textbf{加粗}（\textbf{bold face}）和斜体（\textit{italic}）的命令。\mintinline{tex}{\hrule} 类似于 \mintinline{tex}{\vline}，用于画一个长为 2 \si{cm}，宽度为 0.4 \si{pt} 的水平线段（horizontal rule）。
+
+环境相对于命令而言，是更加高层的命令组合，用于实现一系列功能、格式的定制化。一个环境（environment）的基本结构为
+
+\begin{code}
+  \begin{环境名}
+    % 内容
+  \end{环境名}
+\end{code}
+\begin{rcode}
+  \begin{环境名}[可选参数]{必需参数}
+    % 内容
+  \end{环境名}
+\end{rcode}
+
+当没有\textit{可选参数}或者\textit{必需参数}，可以直接将其对应的括号 \mintinline{tex}{[]} 以及 \mintinline{tex}{{}} 去掉。下面以 \LaTeX{} 中默认的环境来举例说明环境的用法。如果我们需要对一段文字进行居中，则可以使用 \mintinline{tex}{center} 环境\footnote{居左为 \mintinline{tex}{flushleft} 环境，居右为 \mintinline{tex}{flushright} 环境。}。
+
+\begin{code}
+  \begin{center}
+    落霞与孤鹜齐飞，秋水共长天一色。渔舟唱晚，响穷彭蠡之滨；雁阵惊寒，声断衡阳之浦。
+  \end{center}
+\end{code}
+\begin{preview}
+  \begin{center}
+    落霞与孤鹜齐飞，秋水共长天一色。渔舟唱晚，响穷彭蠡之滨；雁阵惊寒，声断衡阳之浦。
+  \end{center}
+\end{preview}
+
+关于带参数的环境的使用，后文有很多例子，这里不赘述。另外，你可能会问 \LaTeX{} 内置哪些环境可以使用，以及他们分别用来干嘛的，关于这部分内容，你可以参考~\cite{latexenvironments} 的 \href{http://www.personal.ceu.hu/tex/environ.htm}{\LaTeX{} Standard Environments}。
+
+载入 \mintinline{tex}{enumerate} 宏包之后，\textbf{列表}环境可以传入参数改变标签：
+
+\begin{code}
+  \begin{itemize}
+    \item First item;
+    \item Second item;
+    \item Third item。
+  \end{itemize}
+\end{code}
+\begin{preview}
+  \begin{itemize}
+    \item First item;
+    \item Second item;
+    \item Third item。
+  \end{itemize}
+\end{preview}
+
 \subsection{最简示例}
 \begin{code}
 \documentclass{article}
@@ -86,15 +150,49 @@ Hello World.
 Hello World.
 \end{preview}
 
+其中，\texmint{\documentclass} 是文档类型\textbf{命令}，声明本文档是文章（article），而正文部分需要放在 \texmint{\begin{document}} 和 \texmint{\end{document}} 之间，比如上面例子中的 \texmint{Hello World} 就是正文内容。
+
+而在 \texmint{\documentclass} 和 \texmint{\begin{document}} 之间的部分，我们称为\textbf{导言区}。在这部分，我们可以引入功能宏包，进行选项设置或者定义一些命令等等。\LaTeX{} 本身能做很多事情，但是很多定制化的功能或者需求需要宏包支持，因此几乎全部的文档都是基于 \LaTeX{} 基本文档类型的命令和环境配合其他宏包命令、环境共同使用的。
+
+\subsection{文档类型}
+
+\LaTeX{} 默认的文档类型（简称\textbf{文类}）主要有
+\begin{itemize}
+  \item 文章文类：\texmint{article}；
+  \item 书籍文类：\texmint{book}；
+  \item 演示文稿：\texmint{beamer}；
+  \item 报告文类：\texmint{report}；
+\end{itemize}
+
+声明文类使用 \mintinline{tex}{\documentclass[文类选项]{文类}}，注意，文类的声明可以带可选项。以文类 \texmint{article} 为例，由于 \texmint{article} 的默认纸张为 legal 大小，将其更改为 A4 纸张，需要使用 \mintinline{tex}{\documentclass[a4paper]{article}}。我们也可以通过文类选项设置字体大小，比如正文字体大小为 11pt 的设置为 \mintinline{tex}{\documentclass[a4paper,11pt]{article}}
+
+\subsection{宏包}
+
+\begin{table}[htbp]
+  \centering
+  \caption{一些常见的功能宏包}
+    \begin{tabular}{cccccc}
+    \toprule
+    \textbf{数学公式}  & \textbf{插图插表}   & \textbf{页面元素}   & \textbf{字体设置}   & \textbf{参考文献}  & \textbf{表格}        \\
+    \midrule
+    \texmint{amsmath} & \texmint{graphicx} & \texmint{geometry} & \texmint{fontspec} & \texmint{natbib}  & \texmint{booktabs}  \\
+    \texmint{amsthm}  & \texmint{caption}  & \texmint{hyperref} & \texmint{ctex}     & \texmint{gbt7714} & \texmint{longtable} \\
+    \texmint{amssymb} & \texmint{subfig}   &                    & \texmint{xeCJK}    &                   & \texmint{multirow}  \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:pkg}%
+\end{table}%
+
+
 \subsection{中文支持}
 目前流行的中文支持有两个方式：
 \begin{itemize}
-\item \mintinline{tex}{ctex} 宏包，或者与其相适应的 \mintinline{tex}{ctexart} 等文类。
-\item \mintinline{tex}{xeCJK} 宏包，需要使用 \hologo{XeLaTeX} 编译。
+\item \texmint{ctex} 宏包，或者与其相适应的 \texmint{ctexart} 等文类。
+\item \texmint{xeCJK} 宏包，需要使用 \hologo{XeLaTeX} 编译。
 \end{itemize}
 
 \subsection{数学字母}
-常用的一些希腊字母见表~\ref{tab:greek_letters}，需要注意的是这些希腊字母需要在数学模式（比如 \mintinline{tex}{$\alpha$}）或者数学环境中使用。
+常用的一些希腊字母见表~\ref{tab:greek_letters}，需要注意的是这些希腊字母需要在数学模式（比如 \texmint{$\alpha$}）或者数学环境中使用。
 \begin{table}[htbp]
   \centering
   \small
@@ -103,21 +201,21 @@ Hello World.
     \toprule
     \textsf{符号} & \textsf{命令} & \textsf{符号} & \textsf{命令} & \textsf{符号} & \textsf{命令} \\
     \midrule
-    $\alpha$ & \mintinline{tex}{\alpha} & $\iota$ & \mintinline{tex}{\iota} & $\sigma$\; $\Sigma$ & \mintinline{tex}{\sigma \Sigma} \\
-    $\beta$ & \mintinline{tex}{\beta} & $\kappa$ & \mintinline{tex}{\kappa} & $\tau$ & \mintinline{tex}{\tau} \\
-    $\gamma$\; $\Gamma$ & \mintinline{tex}{\gamma \Gamma} & $\lambda$ \; $\Lambda$ & \mintinline{tex}{\lambda \Lambda} & $\upsilon$\; $\Upsilon$ & \mintinline{tex}{\upsilon \Upsilon} \\
-    $\delta$ \; $\Delta$ & \mintinline{tex}{\delta \Delta} & $\mu$ & \mintinline{tex}{\mu} & $\phi$\; $\Phi$ & \mintinline{tex}{\phi \Phi} \\
-    $\epsilon$ & \mintinline{tex}{\epsilon} & $\nu$ & \mintinline{tex}{\nu} & $\chi$ & \mintinline{tex}{\chi} \\
-    $\zeta$ & \mintinline{tex}{\zeta} &  $\pi$ \; $\Pi$& \mintinline{tex}{\pi \Pi} & $\psi$\; $\Psi$ & \mintinline{tex}{\psi \Psi} \\
-    $\eta$ & \mintinline{tex}{\eta} & $\rho$ & \mintinline{tex}{\rho}  & $\omega$\; $\Omega$ & \mintinline{tex}{\omega \Omega} \\
-    $\theta$ & \mintinline{tex}{\theta} & $\varepsilon$ &  \mintinline{tex}{\varepsilon} &       &  \\
+    $\alpha$ & \texmint{\alpha} & $\iota$ & \texmint{\iota} & $\sigma$\; $\Sigma$ & \texmint{\sigma \Sigma} \\
+    $\beta$ & \texmint{\beta} & $\kappa$ & \texmint{\kappa} & $\tau$ & \texmint{\tau} \\
+    $\gamma$\; $\Gamma$ & \texmint{\gamma \Gamma} & $\lambda$ \; $\Lambda$ & \texmint{\lambda \Lambda} & $\upsilon$\; $\Upsilon$ & \texmint{\upsilon \Upsilon} \\
+    $\delta$ \; $\Delta$ & \texmint{\delta \Delta} & $\mu$ & \texmint{\mu} & $\phi$\; $\Phi$ & \texmint{\phi \Phi} \\
+    $\epsilon$ & \texmint{\epsilon} & $\nu$ & \texmint{\nu} & $\chi$ & \texmint{\chi} \\
+    $\zeta$ & \texmint{\zeta} &  $\pi$ \; $\Pi$& \texmint{\pi \Pi} & $\psi$\; $\Psi$ & \texmint{\psi \Psi} \\
+    $\eta$ & \texmint{\eta} & $\rho$ & \texmint{\rho}  & $\omega$\; $\Omega$ & \texmint{\omega \Omega} \\
+    $\theta$ & \texmint{\theta} & $\varepsilon$ &  \texmint{\varepsilon} &       &  \\
     \bottomrule
     \end{tabular}%
   \label{tab:greek_letters}%
 \end{table}%
 
 \subsection{文本模式与数学模式}
-在 \LaTeX{} 中，文本和数学是作为两个独立的不同模式存在的，如果需要在文本模式中输入数学式，需要使用英文状态下的美元符号 \mintinline{tex}{$} 将数学命令包围，比如 \mintinline{tex}{$\alpha$} 输出为 $\alpha$。
+在 \LaTeX{} 中，文本和数学是作为两个独立的不同模式存在的，如果需要在文本模式中输入数学式，需要使用英文状态下的美元符号 \mintinline{tex}{$} 将数学命令包围，比如 \texmint{$\alpha$} 输出为 $\alpha$。
 
 \begin{code}
 假设 $y_{i}$ 是被解释变量的第 $i$ 次观测，$x_{i}$ 是解释变量的第 $i$ 次观测，设定回归方程为 $y_{i} = \alpha + \beta x_{i} + \varepsilon_{i}$。
@@ -127,7 +225,7 @@ Hello World.
 \end{preview}
 
 \subsection{数学环境}
-数学环境中，最简单的就是 \mintinline{tex}{equation} 环境，这个环境会对数学公式进行自动编号，如果不需要编号，可以使用 \mintinline{tex}{equation*} 环境。\par
+数学环境中，最简单的就是 \texmint{equation} 环境，这个环境会对数学公式进行自动编号，如果不需要编号，可以使用 \texmint{equation*} 环境。\par
 
 \begin{code}
 \begin{equation}
@@ -160,7 +258,7 @@ y_{i} = \alpha + \beta x_{i} + \varepsilon_{i}
 \end{center}
 \end{preview}
 
-在上述命令中，创建表格的环境名为 \mintinline{tex}{tabular}，而 \mintinline{tex}{tabular} 后的选项为列的对齐方式，分别有居中对齐（c），左对齐（l），右对齐（r），而同一行的不同列之间用 \& 隔开，而换行使用 \mintinline{tex}{\\}。很显然，这种表格并不是我们想要的，我们需要加入一些表格框线：
+在上述命令中，创建表格的环境名为 \texmint{tabular}，而 \texmint{tabular} 后的选项为列的对齐方式，分别有居中对齐（c），左对齐（l），右对齐（r），而同一行的不同列之间用 \& 隔开，而换行使用 \texmint{\\}。很显然，这种表格并不是我们想要的，我们需要加入一些表格框线：
 
 \begin{code}
 \begin{tabular}{|l|c|r|} 
@@ -183,11 +281,11 @@ y_{i} = \alpha + \beta x_{i} + \varepsilon_{i}
 \end{center}
 \end{preview}
 
-可以发现，\mintinline{tex}{|} 为表格的列添加竖线，而 \mintinline{tex}{\hline} 为表格的行添加了横线。
+可以发现，\texmint{|} 为表格的列添加竖线，而 \texmint{\hline} 为表格的行添加了横线。
 
 \subsection{三线表}
 
-在实际写作中，我非常推荐大家使用三线表，而不要添加过多的横线或者竖线，利用 \mintinline{tex}{booktabs} 宏包中的 \mintinline{tex}{\toprule}、\mintinline{tex}{\midrule} 以及 \mintinline{tex}{\bottomrule} 能够非常方便的制作出三线表。示例如下：
+在实际写作中，我非常推荐大家使用三线表，而不要添加过多的横线或者竖线，利用 \texmint{booktabs} 宏包中的 \texmint{\toprule}、\texmint{\midrule} 以及 \texmint{\bottomrule} 能够非常方便的制作出三线表。示例如下：
 
 \begin{code}
 \begin{tabular}{lcr}
@@ -215,7 +313,7 @@ y_{i} = \alpha + \beta x_{i} + \varepsilon_{i}
 \end{preview}
 
 \subsection{长表格}
-如果表格非常长，可以使用 \mintinline{tex}{longtable} 代替 \mintinline{tex}{table}。
+如果表格非常长，可以使用 \texmint{longtable} 代替 \texmint{table}。
 
 \begin{code}
 \begin{table}
@@ -224,19 +322,16 @@ y_{i} = \alpha + \beta x_{i} + \varepsilon_{i}
   \end{tabular}
 \end{table}
 \end{code}
-\hspace{0.02\textwidth}
-\textcolor{gray}{\vrule}
-\hspace{0.02\textwidth}
-\begin{code}
+\begin{rcode}
 \begin{longtable}
   \begin{tabular}
     % 表格内容
   \end{tabular}
 \end{longtable}
-\end{code}
+\end{rcode}
 
 \subsection{辅助工具}
-手动输入表格是一个非常枯燥的过程，而且容易出错，因此我们推荐借助其他工具辅助制作表格，其中个人体验最好的一个工具是 \href{https://ctan.org/pkg/excel2latex}{Excel2\LaTeX{}}。你可以通过 CTAN 的\href{http://mirrors.ctan.org/support/excel2latex.zip}{下载地址}或者\href{https://github.com/EthanDeng/mhlatex4econ/blob/master/archive/excel2latex.zip}{此处}下载此插件，将插件下载解压缩之后，双击打开即可使用，不过建议把 \mintinline{tex}{Excel2LaTeX.xla} 置于 Excel 的启动文件夹内，这样以后就不用每次查找这个 Excel 宏才能使用。我本人的 Office 是 2019，对应的 Excel 的启动目录为 \mintinline[breaklines]{python}{C:\Program Files\Microsoft Office\root\Office16\XLSTART}，如此，在你的 Excel 上方会出现一个插件选项卡，有两个表格转换的选项，见图~\ref{fig:excel2latex}。选中所需要转换的表格，然后选择 \mintinline{shell}{Convert Table to LaTeX} 即可。
+手动输入表格是一个非常枯燥的过程，而且容易出错，因此我们推荐借助其他工具辅助制作表格，其中个人体验最好的一个工具是 \href{https://ctan.org/pkg/excel2latex}{Excel2\LaTeX{}}。你可以通过 CTAN 的\href{http://mirrors.ctan.org/support/excel2latex.zip}{下载地址}或者\href{https://github.com/EthanDeng/mhlatex4econ/blob/master/archive/excel2latex.zip}{此处}下载此插件，将插件下载解压缩之后，双击打开即可使用，不过建议把 \texmint{Excel2LaTeX.xla} 置于 Excel 的启动文件夹内，这样以后就不用每次查找这个 Excel 宏才能使用。我本人的 Office 是 2019，对应的 Excel 的启动目录为 \mintinline[breaklines]{python}{C:\Program Files\Microsoft Office\root\Office16\XLSTART}，如此，在你的 Excel 上方会出现一个插件选项卡，有两个表格转换的选项，见图~\ref{fig:excel2latex}。选中所需要转换的表格，然后选择 \mintinline{shell}{Convert Table to LaTeX} 即可。
 
 \begin{figure}
 \centering
@@ -293,7 +388,7 @@ Be honest rather clever.
 
 \end{document}
 \end{code}
-\begin{code}
+\begin{rcode}
 \documentclass{beamer}
 \usepackage[UTF8,scheme=plain]{ctex}
 % 标题信息
@@ -310,11 +405,11 @@ Be honest rather clever.
 \end{frame}
 
 \end{document}
-\end{code}
+\end{rcode}
 
 \section{文档说明}
 
-本文档使用了 \mintinline{tex}{fontspec} 和  \mintinline{tex}{xeCJK} 设置英文字体和中文字体，用户需要的字体列表如下：
+本文档使用了 \texmint{fontspec} 和  \texmint{xeCJK} 设置英文字体和中文字体，用户需要的字体列表如下：
 \begin{table}[htbp]
   \centering
   \caption{本文档字体设置}
@@ -322,8 +417,8 @@ Be honest rather clever.
     \toprule
           & \textbf{衬线字体}  & \textbf{非衬线字体} & \textbf{等宽字体}   \\
     \midrule
-    英文/\mintinline{tex}{fontspec}    & Amiri & \textsf{Roboto} & \texttt{Ubuntu Mono} \\
-    中文/\mintinline{tex}{xeCJK}   & 方正书宋简体 & \textsf{方正楷体简体} & \texttt{方正仿宋简体}  \\
+    英文/\texmint{fontspec}    & Amiri & \textsf{Roboto} & \texttt{Ubuntu Mono} \\
+    中文/\texmint{xeCJK}   & 方正书宋简体 & \textsf{方正楷体简体} & \texttt{方正仿宋简体}  \\
     \bottomrule
     \end{tabular}%
   \label{tab:fontset}%
@@ -331,7 +426,7 @@ Be honest rather clever.
 
 需要注意的是，在 Win 10 中，安装字体时需要\textsf{\textcolor{FireBrick}{为所有用户安装}}，否则即便安装了字体，\LaTeX{} 也无法找到。
 
-另外，本文高亮使用了 \mintinline{tex}{minted} 宏包，所以，需要调用 \mintinline{shell}{-shell-escape} 选项并用 \hologo{XeLaTeX} 进行编译，如果使用命令行编译，命令如下：
+另外，本文高亮使用了 \texmint{minted} 宏包，所以，需要调用 \mintinline{shell}{-shell-escape} 选项并用 \hologo{XeLaTeX} 进行编译，如果使用命令行编译，命令如下：
 \begin{minted}{shell}
 xelatex --shell-escape main.tex
 \end{minted}
