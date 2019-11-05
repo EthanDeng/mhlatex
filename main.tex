@@ -4,52 +4,8 @@
 
 \title{\bfseries 基本无害的经济学 \LaTeX{} 技巧}
 \author{\href{https://ddswhu.me/}{\bfseries 邓东升} \\  Elegant\LaTeX{} 项目组}
-\date{2019 年 10 月 18 日}
-\newcommand{\heart}{\textcolor{red}{\ensuremath\heartsuit}}
-\usepackage{amsmath,amssymb}
-\usepackage{booktabs}
-\setminted[tex]{breaklines,breaksymbolleft={}}
+\date{2019 年 11 月 05 日}
 
-% \usepackage{ifthen}
-% \usepackage{calc}
-% \usepackage{pifont}
-% \usepackage{forloop}
-
-% origin: https://tex.stackexchange.com/questions/11390/drawing-stars-similar-with-tikz
-\usepackage{tikz}
-\usetikzlibrary{shapes.geometric,calc}
-\tikzset{
-  stars/.style={
-    star, 
-    star points=5, 
-    star point ratio=2.25, 
-    draw,
-    inner sep=0.14em,
-    anchor=outer point 3,
-    draw=orange,
-    scale=0.8
-  }
-}
-\newcommand\stars[1]{
-\pgfmathsetmacro\pgfxa{#1+1}
-\begin{tikzpicture}[baseline]
-  \foreach \i in {1,...,5} {
-    \pgfmathparse{(\i<=#1?"orange":"white")}
-    \edef\starcolor{\pgfmathresult}
-    \draw (\i*0.8em,0) node[name=star\i,stars,fill=\starcolor]  {};
-   }
-   \pgfmathparse{(#1>int(#1)?int(#1+1):0}
-   \let\partstar=\pgfmathresult
-   \ifnum\partstar>0
-     \pgfmathsetmacro\starpart{#1-(int(#1))}
-     \path [clip] ($(star\partstar.outer point 3)!(star\partstar.outer point 2)!(star\partstar.outer point 4)$) rectangle 
-    ($(star\partstar.outer point 2 |- star\partstar.outer point 1)!\starpart!(star\partstar.outer point 1 -| star\partstar.outer point 5)$);
-     \fill (\partstar*0.8em,0) node[stars,fill=orange]  {};
-   \fi
-\end{tikzpicture}
-}
-
-\newcommand\email[1]{\href{mailto:#1}{\nolinkurl{#1}}}
 
 \begin{document}
 
@@ -61,9 +17,9 @@
 \section{环境搭建}
 目前 \LaTeX{} 的主要发行版本如下：
 \begin{itemize}
-\item \hologo{MiKTeX}：Windows 上的发行版，国内的 C\TeX{}\footnote{已过时，请尽量不要使用。} 使用的就是 \hologo{MiKTeX}；
-\item \TeX{} Live：编辑器 \TeX{}works，跨系统，每年更新一个大版本，最新版为 TeX Live 2019；
-\item Mac\TeX{}：Mac 上的 \TeX{} Live，为了适应 Mac 系统做了一些细微的调整；
+  \item \hologo{MiKTeX}：Windows 上的发行版，国内的 C\TeX{}\footnote{已过时，请尽量不要使用。} 使用的就是 \hologo{MiKTeX}；
+  \item \TeX{} Live：编辑器 \TeX{}works，跨系统，每年更新一个大版本，最新版为 TeX Live 2019；
+  \item Mac\TeX{}：Mac 上的 \TeX{} Live，为了适应 Mac 系统做了一些细微的调整；
 \end{itemize} 
 
 推荐使用 \TeX{} Live 2019，可以使用默认的 \TeX{}works 或者配合其他编辑器（比如 Sublime Text、Visual Studio Code）的插件进行编写，后面我们会细说这部分。
@@ -71,8 +27,8 @@
 \subsection{安装 \TeX{} Live}
 首先，我们进入 \TeX{} Live 的\href{https://www.tug.org/texlive/}{官网}地址，点击页面中的 \href{https://www.tug.org/texlive/acquire-netinstall.html}{download}，然后可以选择在线安装或者下载安装文件之后离线安装，推荐使用离线安装。
 \begin{itemize}
-	\item \textbf{在线安装}：点击 \href{http://mirror.ctan.org/systems/texlive/tlnet/install-tl-windows.exe}{install-tl-windows.exe}（Windows） 或者 \href{http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz}{install-tl-unix.tar.gz}（Linux/Unix），视自己系统选择，然后按照提示进行安装。
-	\item \textbf{离线安装}：首先下载镜像文件，点击 \href{https://ctan.org/mirrors}{generic mirror.ctan.org url}，这个时候我们会跳转到 \TeX{} Live 的\href{https://ctan.org/mirrors}{镜像站},下拉找到国内的镜像站。在国内的镜像列表中，选择离自己比较近的地区的镜像进行下载\footnote{比如上海的用户可以选择\href{https://mirrors.sjtug.sjtu.edu.cn/ctan/}{上海交大的镜像地址}，然后往上拉找到 \TeX{} Live，点击进入上海交大 \TeX{} Live 的\href{https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/}{下载地址}，选择 \href{https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/}{./images/}，然后将 \href{https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/texlive.iso}{texlive.iso}下载即可。}。下载镜像文件之后，使用资源管理器或者镜像挂载工具\footnote{推荐使用 \href{http://wincdemu.sysprogs.org/}{WinCDEmu} 进行挂载，WinCDEmu 下载后直接安装即可，这里不再赘述。}进行挂载，\textsf{\textcolor{FireBrick}{请不要使用压缩软件对镜像文件解压缩}}。
+  \item \textbf{在线安装}：点击 \href{http://mirror.ctan.org/systems/texlive/tlnet/install-tl-windows.exe}{install-tl-windows.exe}（Windows） 或者 \href{http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz}{install-tl-unix.tar.gz}（Linux/Unix），视自己系统选择，然后按照提示进行安装。
+  \item \textbf{离线安装}：首先下载镜像文件，点击 \href{https://ctan.org/mirrors}{generic mirror.ctan.org url}，这个时候我们会跳转到 \TeX{} Live 的\href{https://ctan.org/mirrors}{镜像站},下拉找到国内的镜像站。在国内的镜像列表中，选择离自己比较近的地区的镜像进行下载\footnote{比如上海的用户可以选择\href{https://mirrors.sjtug.sjtu.edu.cn/ctan/}{上海交大的镜像地址}，然后往上拉找到 \TeX{} Live，点击进入上海交大 \TeX{} Live 的\href{https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/}{下载地址}，选择 \href{https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/}{./images/}，然后将 \href{https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/texlive.iso}{texlive.iso}下载即可。}。下载镜像文件之后，使用资源管理器或者镜像挂载工具\footnote{推荐使用 \href{http://wincdemu.sysprogs.org/}{WinCDEmu} 进行挂载，WinCDEmu 下载后直接安装即可，这里不再赘述。}进行挂载，\textsf{\textcolor{FireBrick}{请不要使用压缩软件对镜像文件解压缩}}。
 \end{itemize}
 
 更多的关于 \TeX{} Live 的安装问题，可以参考\href{https://github.com/OsbertWang}{啸行}的\href{https://github.com/OsbertWang/install-latex}{一份简短的关于 \LaTeX{} 安装的介绍}。
@@ -80,14 +36,14 @@
 \subsection{配置编译环境}
 在安装好 \TeX{} Live 之后，我们需要选择一个编辑器，目前主流的编辑器有：
 \begin{itemize}
-\item \href{http://www.winedt.com/}{WinEdt}，\TeX{} 专用，过去 Windows 上非常流行的编辑器，收费软件，编辑方便，有输入辅助面板，编码支持不好，适合新手，但不推荐；
-\item \href{http://texstudio.sourceforge.net/}{\TeX{}studio}，\TeX{} 专用，开源软件，兼顾了易用性以及可定制性，代码提示优秀，有输入辅助面板，适合新手，推荐全阶段使用。
-\item \TeX{}works，\TeX{} 专用，\TeX{} Live 自带的编辑器，界面非常简洁，对于新手不友好，自动补全功能还可以，需要的可以参考我之前的一个总结：\href{https://github.com/EthanDeng/texworks-autocomplete}{\TeX{}works 自动补全功能}，推荐不想安装额外软件的用户。
-\item \href{http://www.sublimetext.com/}{Sublime Text}，颜值很高、高可定制化的文本编辑器，非 \TeX{} 专用，付费软件，界面非常简洁，自动补全功能完善，代码高亮非常优秀，支持自定义代码片段，插件开发成熟，极度不适合新手，另外插件安装可能受限，极度不适合无法科学上网的用户，只适合高玩以及颜值主义者。
-\item Visual Studio Code, 微软推出的高可定制化文本编辑器，非 \TeX{} 专用，免费软件。可配置快捷编译按钮，自动补全、代码高亮很优秀，插件体验良好，但由于处于不断更新迭代过程，中间可能会有重大改动，需要关注开发者。推荐熟悉 \LaTeX{} 的用户使用。
+  \item \href{http://www.winedt.com/}{WinEdt}，\TeX{} 专用，过去 Windows 上非常流行的编辑器，收费软件，编辑方便，有输入辅助面板，编码支持不好，适合新手，但不推荐；
+  \item \href{http://texstudio.sourceforge.net/}{\TeX{}studio}，\TeX{} 专用，开源软件，兼顾了易用性以及可定制性，代码提示优秀，有输入辅助面板，适合新手，推荐全阶段使用。
+  \item \TeX{}works，\TeX{} 专用，\TeX{} Live 自带的编辑器，界面非常简洁，对于新手不友好，自动补全功能还可以，需要的可以参考我之前的一个总结：\href{https://github.com/EthanDeng/texworks-autocomplete}{\TeX{}works 自动补全功能}，推荐不想安装额外软件的用户。
+  \item \href{http://www.sublimetext.com/}{Sublime Text}，颜值很高、高可定制化的文本编辑器，非 \TeX{} 专用，付费软件，界面非常简洁，自动补全功能完善，代码高亮非常优秀，支持自定义代码片段，插件开发成熟，极度不适合新手，另外插件安装可能受限，极度不适合无法科学上网的用户，只适合高玩以及颜值主义者。
+  \item Visual Studio Code, 微软推出的高可定制化文本编辑器，非 \TeX{} 专用，免费软件。可配置快捷编译按钮，自动补全、代码高亮很优秀，插件体验良好，但由于处于不断更新迭代过程，中间可能会有重大改动，需要关注开发者。推荐熟悉 \LaTeX{} 的用户使用。
 \end{itemize}
 
-我在我的小圈子里做了一个 \LaTeX{} 编辑器体验调查，表~\ref{tab:editor} 列出了各个编辑器的用户评分细分项，主观意见，仅供参考。如果你对这些编辑器有自己的评价，欢迎\href{https://github.com/EthanDeng/mhlatex4econ/blob/master/archive/LaTeX 编辑器对比评分表.xlsx}{下载评分表}，对自己熟悉的编辑器打分，然后发给我 \email{ddswhu@outlook.com}，我将加入到这个评分表中。
+我在我的小圈子里做了一个 \LaTeX{} 编辑器体验调查，表~\ref{tab:editor} 列出了各个编辑器的用户平均评分，此表为主观打分，仅供参考。此表的绘制参考了~\cite{jake2019} 的 \TikZ{} 代码。如果你对这些编辑器有自己的评价，欢迎 \href{https://github.com/EthanDeng/mhlatex4econ/blob/master/archive/LaTeX 编辑器对比评分表.xlsx}{下载评分表}，对自己熟悉的编辑器打分，然后发给我 \email{ddswhu@outlook.com}，我将加入到这个评分表中。
 
 \begin{table}[htbp]
   \centering
@@ -280,7 +236,7 @@ y_{i} = \alpha + \beta x_{i} + \varepsilon_{i}
 \end{code}
 
 \subsection{辅助工具}
-手动输入表格是一个非常枯燥的过程，而且容易出错，因此我们推荐借助其他工具辅助制作表格，其中个人体验最好的一个工具是 \href{https://ctan.org/pkg/excel2latex}{Excel2LaTeX}。你可以通过 CTAN 的\href{http://mirrors.ctan.org/support/excel2latex.zip}{下载地址}或者\href{}{此处}下载此插件，将插件下载解压缩之后，双击打开即可使用，不过建议把 \mintinline{tex}{Excel2LaTeX.xla} 置于 Excel 的启动文件夹内，这样以后就不用每次查找这个 Excel 宏才能使用。我本人的 Office 是 2019，对应的 Excel 的启动目录为 \mintinline[breaklines]{tex}{C:\Program Files\Microsoft Office\root\Office16\XLSTART}，如此，在你的 Excel 上方会出现一个插件选项卡，有两个表格转换的选项，见图~\ref{fig:excel2latex}。选中所需要转换的表格，然后选择 \mintinline{shell}{Convert Table to LaTeX} 即可。
+手动输入表格是一个非常枯燥的过程，而且容易出错，因此我们推荐借助其他工具辅助制作表格，其中个人体验最好的一个工具是 \href{https://ctan.org/pkg/excel2latex}{Excel2\LaTeX{}}。你可以通过 CTAN 的\href{http://mirrors.ctan.org/support/excel2latex.zip}{下载地址}或者\href{https://github.com/EthanDeng/mhlatex4econ/blob/master/archive/excel2latex.zip}{此处}下载此插件，将插件下载解压缩之后，双击打开即可使用，不过建议把 \mintinline{tex}{Excel2LaTeX.xla} 置于 Excel 的启动文件夹内，这样以后就不用每次查找这个 Excel 宏才能使用。我本人的 Office 是 2019，对应的 Excel 的启动目录为 \mintinline[breaklines]{python}{C:\Program Files\Microsoft Office\root\Office16\XLSTART}，如此，在你的 Excel 上方会出现一个插件选项卡，有两个表格转换的选项，见图~\ref{fig:excel2latex}。选中所需要转换的表格，然后选择 \mintinline{shell}{Convert Table to LaTeX} 即可。
 
 \begin{figure}
 \centering
@@ -294,7 +250,27 @@ y_{i} = \alpha + \beta x_{i} + \varepsilon_{i}
 
 \subsection{回归表格}
 
+outreg2 
+
+R
+
+Python
+
+\section{颜色}
+
+在 \LaTeX{} 中，有 7 种内置的颜色，分别是 white, black, red, green, blue, cyan, magenta, yellow。
+
+\subsection{定义颜色}
+
+\subsection{使用颜色}
+
 \section{文献}
+
+\subsection{thebibliography 环境}
+
+\subsection{\hologo{BibTeX} 的使用}
+
+\subsection{natbib 包}
 
 \section{幻灯片}
 Beamer 是 \LaTeX{} 用于制作幻灯片的一个文类，由于它的格式简洁、易于使用、方便展示数学公式和逻辑演绎，在学术界特别是国外非常受欢迎。下面分别是是英文 Beamer 和中文 Beamer 的一个简单示例：
@@ -359,5 +335,9 @@ Be honest rather clever.
 \begin{minted}{shell}
 xelatex --shell-escape main.tex
 \end{minted}
+
+\bibliographystyle{plainnat}
+\nocite{overleaftables,overleafbibtex}
+\bibliography{reference}
 
 \end{document}
