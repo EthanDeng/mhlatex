@@ -4,7 +4,7 @@
 
 \title{\bfseries 基本无害的经济学 \LaTeX{} 技巧}
 \author{\href{https://ddswhu.me/}{\bfseries 邓东升} \\  Elegant\LaTeX{} 项目组}
-\date{2019 年 11 月 05 日}
+\date{\today}
 
 \newcommand{\texmint}[1]{\mintinline{tex}{#1}}
 
@@ -15,13 +15,22 @@
 
 此文档为经济学专业的 \LaTeX{} 技巧总结，包括环境搭建、基础知识、参考文献以及幻灯片制作等内容，仅作为经济学专业的师生作为入门 \LaTeX{} 使用。使用 \texmint{dlove} \heart{} 模板和 \hologo{XeLaTeX} 编译完成。
 
+\section{文档必读}
+在写作文档时，我觉得有几个准则
+\begin{itemize}
+  \item 内容为王，不要过分追求格式，Word、Markdown、\LaTeX{} 无所谓；
+  \item 导师为大，导师用什么，你用什么。
+  \item 保持学习的态度，但是不要主次不分。
+  \item 投稿用模板时，不要有自己的想法。
+\end{itemize}
+
 \section{环境搭建}
 目前 \LaTeX{} 的主要发行版本如下：
 \begin{itemize}
   \item \hologo{MiKTeX}：Windows 上的发行版，国内的 C\TeX{}\footnote{已过时，请尽量不要使用。} 使用的就是 \hologo{MiKTeX}；
   \item \TeX{} Live：编辑器 \TeX{}works，跨系统，每年更新一个大版本，最新版为 TeX Live 2019；
   \item Mac\TeX{}：Mac 上的 \TeX{} Live，为了适应 Mac 系统做了一些细微的调整；
-\end{itemize} 
+\end{itemize}
 
 推荐使用 \TeX{} Live 2019，可以使用默认的 \TeX{}works 或者配合其他编辑器（比如 Sublime Text、Visual Studio Code）的插件进行编写，后面我们会细说这部分。
 
@@ -81,8 +90,8 @@
 命令由反斜杠 \mintinline{tex}{\} 引导，一般的形式为 \mintinline{tex}{\cmd[可选参数]{必选参数}}，命令名全部由\textcolor{FireBrick}{英文字母}构成，并且大小写敏感，因此 \mintinline{tex}{\LaTeX{}} 是对的，而 \mintinline{tex}{\latex{}} 是错的。必选参数可能有 0 个或者多个，无参数的命令为 \mintinline{tex}{\cmd}，多个参数的形式为 \mintinline{tex}{\cmd[可选参数]{参数 1}{参数 2}...{参数 N}}。下面是一个示例：
 
 \begin{code}
-  无参数命令：\LaTeX{} \vline 
-  单参数命令：\textbf{加粗} \textit{Italic Style} 
+  无参数命令：\LaTeX{} \vline
+  单参数命令：\textbf{加粗} \textit{Italic Style}
   多参数命令：\rule{2cm}{0.4pt}
 \end{code}
 \begin{preview}
@@ -243,17 +252,17 @@ y_{i} = \alpha + \beta x_{i} + \varepsilon_{i}
 
 \begin{code}
 \begin{tabular}{ccc}
-  English &  Context &   996   \\ 
-  Right   &   Here   &  1024   \\ 
-  Chinese & $\alpha$ & $\beta$ \\   
+  English &  Context &   996   \\
+  Right   &   Here   &  1024   \\
+  Chinese & $\alpha$ & $\beta$ \\
 \end{tabular}
 \end{code}
 \begin{preview}
 \begin{center}
 \begin{tabular}{ccc}
-  English &  Context &   996   \\ 
-   Right  &   Here   &  1024   \\ 
-  Chinese & $\alpha$ & $\beta$ \\   
+  English &  Context &   996   \\
+   Right  &   Here   &  1024   \\
+  Chinese & $\alpha$ & $\beta$ \\
 \end{tabular}
 \end{center}
 \end{preview}
@@ -261,21 +270,21 @@ y_{i} = \alpha + \beta x_{i} + \varepsilon_{i}
 在上述命令中，创建表格的环境名为 \texmint{tabular}，而 \texmint{tabular} 后的选项为列的对齐方式，分别有居中对齐（c），左对齐（l），右对齐（r），而同一行的不同列之间用 \& 隔开，而换行使用 \texmint{\\}。很显然，这种表格并不是我们想要的，我们需要加入一些表格框线：
 
 \begin{code}
-\begin{tabular}{|l|c|r|} 
+\begin{tabular}{|l|c|r|}
   \hline
-  English &  Context &     996 \\ 
-  Right   &   Here   &    1024 \\ 
-  Chinese & $\alpha$ & $\beta$ \\ 
+  English &  Context &     996 \\
+  Right   &   Here   &    1024 \\
+  Chinese & $\alpha$ & $\beta$ \\
   \hline
 \end{tabular}
 \end{code}
 \begin{preview}
 \begin{center}
-\begin{tabular}{|l|c|r|} 
+\begin{tabular}{|l|c|r|}
   \hline
-  English &  Context &     996 \\ 
-  Right   &   Here   &    1024 \\ 
-  Chinese & $\alpha$ & $\beta$ \\ 
+  English &  Context &     996 \\
+  Right   &   Here   &    1024 \\
+  Chinese & $\alpha$ & $\beta$ \\
   \hline
 \end{tabular}
 \end{center}
@@ -292,9 +301,9 @@ y_{i} = \alpha + \beta x_{i} + \varepsilon_{i}
   \toprule
   Language &   Infor  &  Number \\
   \midrule
-  English  &  Context &     996 \\ 
-  Right    &   Here   &    1024 \\ 
-  Chinese  & $\alpha$ & $\beta$ \\ 
+  English  &  Context &     996 \\
+  Right    &   Here   &    1024 \\
+  Chinese  & $\alpha$ & $\beta$ \\
   \bottomrule
 \end{tabular}
 \end{code}
@@ -304,9 +313,9 @@ y_{i} = \alpha + \beta x_{i} + \varepsilon_{i}
   \toprule
   Language &   Infor  &  Number \\
   \midrule
-  English  &  Context &     996 \\ 
-  Right    &   Here   &    1024 \\ 
-  Chinese  & $\alpha$ & $\beta$ \\ 
+  English  &  Context &     996 \\
+  Right    &   Here   &    1024 \\
+  Chinese  & $\alpha$ & $\beta$ \\
   \bottomrule
 \end{tabular}
 \end{center}
@@ -345,7 +354,7 @@ y_{i} = \alpha + \beta x_{i} + \varepsilon_{i}
 
 \subsection{回归表格}
 
-outreg2 
+outreg2
 
 R
 
