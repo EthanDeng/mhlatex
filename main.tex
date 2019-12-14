@@ -6,7 +6,11 @@
 \author{\href{https://ddswhu.me/}{\bfseries 邓东升} \\  Elegant\LaTeX{} 项目组}
 \date{\today}
 
+\usepackage{xcolor}
+\definecolor{firebrick}{rgb}{0.7, 0.13, 0.13}
+
 \newcommand{\texmint}[1]{\mintinline{tex}{#1}}
+\renewcommand{\emph}[1]{\textcolor{firebrick}{#1}}
 
 \begin{document}
 
@@ -21,7 +25,7 @@
   \item 内容为王，不要过分追求格式，Word、Markdown、\LaTeX{} 无所谓；
   \item 导师为大，导师用什么，你用什么。
   \item 保持学习的态度，但是不要主次不分。
-  \item 投稿用模板时，不要有自己的想法。
+  \item 投稿用模板时，不要有自己的想法。具体来说，就是不管你对你所投稿的杂志给的官方模板有任何意见，请保留，不要尝试去改动里面的设置。你可能会问，你所用的模板和杂志的样稿不一样，不要紧张，投稿和发表本身模板就会不一样。
 \end{itemize}
 
 \section{环境搭建}
@@ -173,7 +177,41 @@ Hello World.
   \item 报告文类：\texmint{report}；
 \end{itemize}
 
-声明文类使用 \mintinline{tex}{\documentclass[文类选项]{文类}}，注意，文类的声明可以带可选项。以文类 \texmint{article} 为例，由于 \texmint{article} 的默认纸张为 legal 大小，将其更改为 A4 纸张，需要使用 \mintinline{tex}{\documentclass[a4paper]{article}}。我们也可以通过文类选项设置字体大小，比如正文字体大小为 11pt 的设置为 \mintinline{tex}{\documentclass[a4paper,11pt]{article}}
+声明文类时可以设置文类选项，多个文类选项用英文逗号隔开，命令为 \mintinline{tex}{\documentclass[文类选项 1, 文类选项 2, ...]{文类}}。
+
+以文类 \texmint{article} 为例，由于 \texmint{article} 的默认纸张为 legal 大小，将其更改为 A4 纸张，需要使用 \mintinline{tex}{\documentclass[a4paper]{article}}。我们也可以通过文类选项设置字体大小，比如正文字体大小为 11pt 的设置为 \mintinline{tex}{\documentclass[a4paper,11pt]{article}}。文类选项有：
+\begin{itemize}
+  \item \textsf{字体大小} (\texmint{10pt}, \texmint{11pt}, \texmint{12pt})
+  \item \textsf{纸张大小} (\texmint{a4paper}, \texmint{letterpaper}, etc.)
+  \item \textsf{章节开启方式} (\texmint{openright}, \texmint{openany})
+  \item 草稿模式 (\texmint{draft})
+  \item 多栏模式 (\texmint{onecolumn}, \texmint{twocolumn})
+  \item 公式格式 (\texmint{fleqn} and \texmint{leqno})
+  \item 横向打印 (\texmint{landscape})
+  \item 边距选项 (\texmint{oneside}, \texmint{twoside})
+  \item 封面选项 (\texmint{notitlepage}, \texmint{titlepage})
+\end{itemize}
+
+其中前三组选项为常用文类选项，如果想了解更多文类选项的内容，也可以参考~\href{https://texblog.org/2013/02/13/latex-documentclass-options-illustrated/}{\LaTeX{} Documentclass Options Illustrated}。
+
+\textbf{GitHub Issue}: \href{https://github.com/EthanDeng/mhlatex4econ/issues/6}{怎么设置字号}。
+
+\subsection{添加并修改目录}
+这是 GitHub 上的一个 issue，原文 \href{https://github.com/EthanDeng/mhlatex4econ/issues/7}{如何加目录？}
+\subsubsection{目录命令}
+首先，在 \LaTeX{} 中添加目录的方法如下：将 \mintinline{tex}{\tableofcontents} 放在你所需要目录出现的地方，一般来说，我们会把目录放在封面信息之后，也就是 \mintinline{tex}{\maketitle} 之后。
+
+\textsf{需要注意的时候，在涉及到超链接、目录、参考文献的时候，都需要编译至少 2 遍才能得到正确的目录、超链接以及参考文献引用。}
+
+\subsubsection{额外添加信息}
+在知道如何添加目录之后，如果想把某一章或者某一节（无编号）也添加到目录中，那么可以使用 \texmint{addcontentsline} 命令。具体用法
+
+\begin{code}
+  \chapter*{Acknowledgements}
+  \addcontentsline{toc}{chapter}{Acknowledgements}
+\end{code}
+
+第一行命令 \mintinline{tex}{\chapter*} 表示当前章节不编号，并且不放在目录中，章节名为 Acknowledgements；第二行命令表示在目录中添加一个章目录，名为 Acknowledgements（可以与之前的不一样，比如写成 Acknow.）的命令。
 
 \subsection{宏包}
 
@@ -439,6 +477,10 @@ Be honest rather clever.
 \begin{minted}{shell}
 xelatex --shell-escape main.tex
 \end{minted}
+
+
+\section{代码写作风格}
+越来越觉得，形成固定的代码风格非常重要，包括文件命名规则。
 
 \bibliographystyle{plainnat}
 \nocite{overleaftables,overleafbibtex}
