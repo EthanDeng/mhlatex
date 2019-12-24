@@ -231,8 +231,34 @@ Hello World.
   \label{tab:pkg}%
 \end{table}%
 
+Question: \href{https://github.com/EthanDeng/mhlatex/issues/21}{如何查找自己需要的各种宏包？比如用于化学结构式，反应式？}
+
+Answer：两种方法，
+\begin{enumerate*}
+  \item 直接在 \href{http://ctan.org/pkg}{CTAN} 搜索。\TeX{} Live 中自带的包有很多，你可以用关键字搜索，比如搜索 \textsf{chemical formula} 之类的词，然后去查看每个包的功能介绍，找到自己合适的包；
+  \item 通过搜索引擎搜索。你可以在搜索引擎搜索 \textsf{latex chemical formula}，特别关注 \href{https://tex.stackexchange.com/}{TeX - LaTeX Stack Exchange} 上的答案。
+\end{enumerate*}
+
+\begin{center}
+  \begin{minipage}[c]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{pkg-search-ctan.png}
+  \end{minipage}
+  \begin{minipage}[c]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{pkg-search-google.png}
+  \end{minipage}  
+\end{center}
+
+
+备注：如果本地已经安装 \TeX{} Live，可以通过命令提示符（\textsf{command line/cmd} 或者 \textsf{terminal}）查看宏包说明文档，请注意这是每个宏包官方的、也是最好、最全面的文档，如果你不理解一些宏包选项或者设置，你可以通过此方法获取宏包官方文档。具体的，如果你想查找中文支持宏包 \mintinline{shell}{ctex} 的官方文档，可以在 cmd 里面输入 \mintinline{shell}{texdoc ctex}，如图~\ref{fig:texdoc} 所示。
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{image/texdoc.png}
+  \caption{使用 \mintinline{shell}{texdoc} 命令查看 \TeX{} Live 本地的宏包说明文档\label{fig:texdoc}}
+\end{figure}
 
 \subsection{中文支持}
+
 目前流行的中文支持有两个方式：
 \begin{itemize}
 \item \texmint{ctex} 宏包，或者与其相适应的 \texmint{ctexart} 等文类。
@@ -406,6 +432,9 @@ Python
 \subsection{定义颜色}
 
 \subsection{使用颜色}
+
+
+
 
 \section{文献}
 
